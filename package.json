@@ -10,7 +10,11 @@
     "schema": "psql -d postgres -f schema.sql",
     "ingest": "node scripts/ingest_all.js",
     "search": "node scripts/search.js",
-    "status": "node scripts/status.js"
+    "status": "node scripts/status.js",
+    "ingest:whatsapp": "node scripts/ingest_whatsapp.js",
+    "ingest:ms365": "node scripts/ingest_ms365.js",
+    "ingest:gmail": "node scripts/ingest_gmail.js",
+    "poll": "node scripts/poll.js"
   },
   "dependencies": {
     "pg": "^8.16.3"
