@@ -1,0 +1,10 @@
+import { makePool } from './lib.js';
+const pool = makePool();
+const out = {};
+out.database = (await pool.query('select current_database() db, current_user usr')).rows[0];
+out.sources = (await pool.query('select * from source_stats order by source')).rows;
+out.counts = (await pool.query(`select (select count(*)::int from conversations) conversations, (select count(*)::int from messages) messages, (select count(*)::int from summaries) summaries`)).rows[0];
+out.recentIngestRuns = (await pool.query(`select id, source, started_at, finished_at, ok, conversations_seen, messages_seen, messages_inserted, messages_updated, left(notes,200) notes from ingest_runs order by id desc limit 10`)).rows;
+out.latestMessages = (await pool.query(`select source, message_ts, conversation, sender_name, subject, left(text,160) text from recent_messages limit 10`)).rows;
+console.log(JSON.stringify(out, null, 2));
+await pool.end();
